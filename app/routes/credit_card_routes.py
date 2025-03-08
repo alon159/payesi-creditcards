@@ -6,6 +6,7 @@ from app import db
 from app.services.tokenization_service import tokenize_card
 from app.utils.validators import validate_card_data
 
+#/api/cards/<string:card_id>
 class CreditCardResource(Resource):
     def get(self, card_id):
         card = CreditCard.query.get_or_404(card_id)
@@ -17,6 +18,7 @@ class CreditCardResource(Resource):
         db.session.commit()
         return '', 204
 
+#/api/cards
 class CreditCardListResource(Resource):
     def get(self):
         cards = CreditCard.query.all()
@@ -31,17 +33,19 @@ class CreditCardListResource(Resource):
             return validation_error
         
         # Tokenize card data
-        card_token, last_four = tokenize_card(data['card_number'])
+        cardToken, cvvToken, dniToken = tokenize_card(data['cardNumber'], data['cvv'], data['dni'])
         
         new_card = CreditCard(
-            card_token=card_token,
-            last_four=last_four,
-            expiry_month=data['expiry_month'],
-            expiry_year=data['expiry_year'],
-            cardholder_name=data['cardholder_name']
+            cardNumber=cardToken,
+            cardHolderName=data['cardHolderName'],
+            expirationDate=data['expirationDate'],
+            cvv=cvvToken,
+            type=data['type'],
+            active=data['active'],
+            dni=dniToken,
         )
         
         db.session.add(new_card)
         db.session.commit()
         
-        return jsonify(new_card.to_dict()), 201
+        return new_card.to_dict(), 201

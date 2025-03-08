@@ -1,23 +1,22 @@
 # app/models/credit_card.py
 from app import db
-import uuid
-from datetime import datetime
 
 class CreditCard(db.Model):
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    card_token = db.Column(db.String(64), nullable=False, unique=True)
-    last_four = db.Column(db.String(4), nullable=False)
-    expiry_month = db.Column(db.String(2), nullable=False)
-    expiry_year = db.Column(db.String(4), nullable=False)
-    cardholder_name = db.Column(db.String(100), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
+    cardNumber = db.Column(db.String(16), primary_key=True)
+    cardHolderName = db.Column(db.String(100), nullable=False)
+    expirationDate = db.Column(db.String(5), nullable=False)
+    cvv = db.Column(db.String(3), nullable=False)
+    type = db.Column(db.String(12), nullable=False)
+    active = db.Column(db.Boolean, nullable=False)
+    dni = db.Column(db.String(12), nullable=False)
+
     def to_dict(self):
         return {
-            'id': self.id,
-            'last_four': self.last_four,
-            'expiry_month': self.expiry_month,
-            'expiry_year': self.expiry_year,
-            'cardholder_name': self.cardholder_name,
-            'created_at': self.created_at.isoformat()
+            "number": self.cardNumber,
+            "cardHolderName": self.cardHolderName,
+            "expirationDate": self.expirationDate,
+            "cvv": self.cvv,
+            "type": self.type,
+            "active": self.active,
+            "dni": self.dni,
         }

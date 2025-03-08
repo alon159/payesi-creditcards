@@ -17,16 +17,17 @@ A secure backend API for managing credit card information built with Flask.
 ## Installation
 
 1. Clone the repository:
-git clone https://github.com/your-username/flask-credit-card-api.git
-cd flask-credit-card-api
+   git clone https://github.com/your-username/flask-credit-card-api.git
+   cd flask-credit-card-api
 2. Create and activate a virtual environment:
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python -m venv venv
+   source venv/bin/activate # On Windows: venv\Scripts\activate
 3. Install dependencies:
-pip install -r requirements.txt
+   pip install -r requirements.txt
 4. Create a .env file with your configuration variables.
 5. Run the application:
-python run.py
+   python run.py
+
 ## API Endpoints
 
 - `GET /api/cards` - Get all cards
@@ -37,6 +38,7 @@ python run.py
 ## Security Note
 
 This project is for demonstration purposes. In production, consider:
+
 - Using a PCI-compliant payment processor
 - Implementing proper authentication and authorization
 - Enabling HTTPS for all connections
