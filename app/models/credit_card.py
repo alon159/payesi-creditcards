@@ -3,6 +3,7 @@ from app import db
 
 class CreditCard(db.Model):
     cardNumber = db.Column(db.String(16), primary_key=True)
+    balance = db.Column(db.Float, nullable=False)
     cardHolderName = db.Column(db.String(100), nullable=False)
     expirationDate = db.Column(db.String(5), nullable=False)
     cvv = db.Column(db.String(3), nullable=False)
@@ -12,7 +13,7 @@ class CreditCard(db.Model):
 
     def to_dict(self):
         return {
-            "number": self.cardNumber,
+            "cardNumber": self.cardNumber,
             "cardHolderName": self.cardHolderName,
             "expirationDate": self.expirationDate,
             "cvv": self.cvv,

@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from app.config import config_by_name
 from app.routes import register_routes
-
+from flask_cors import CORS
 
 db = SQLAlchemy()
 api = Api()
@@ -12,6 +12,7 @@ api = Api()
 def create_app(config_name='development'):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
+    CORS(app)
     
     db.init_app(app)
     

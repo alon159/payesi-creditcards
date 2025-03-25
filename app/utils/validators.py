@@ -1,5 +1,6 @@
 # app/utils/validators.py
 from datetime import datetime
+import json
 
 
 def validate_card_data(data):
@@ -55,4 +56,11 @@ def validate_card_data(data):
 
     # Additional validations can be added here
 
+    return None
+
+def compare_data(data, creditCard):
+    validation = json.dumps(data, sort_keys=True) == json.dumps(creditCard, sort_keys=True)
+
+    if not validation:
+        return {"error": "Data validation failed"}, 400
     return None
