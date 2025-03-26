@@ -1,7 +1,7 @@
 # app/services/tokenization_service.py
 import hashlib
 
-def tokenize_card(cardNumber, cvv, dni):
+def tokenize_card(number, cvv, user_dni):
     """
     Tokenize a credit card number, CVV, and DNI.
     
@@ -12,8 +12,8 @@ def tokenize_card(cardNumber, cvv, dni):
         tuple: (number_token, cvv_token, dni_token)
     """
     # Simple tokenization - NOT for production use
-    cardNumberToken = hashlib.sha256(cardNumber.encode()).hexdigest()
+    numberToken = hashlib.sha256(number.encode()).hexdigest()
     cvvToken = hashlib.sha256(cvv.encode()).hexdigest()
-    dniToken = hashlib.sha256(dni.encode()).hexdigest()
+    dniToken = hashlib.sha256(user_dni.encode()).hexdigest()
     
-    return cardNumberToken, cvvToken, dniToken
+    return numberToken, cvvToken, dniToken

@@ -34,17 +34,17 @@ class CreditCardListResource(Resource):
             return validation_error
         
         # Tokenize card data
-        #cardToken, cvvToken, dniToken = tokenize_card(data['cardNumber'], data['cvv'], data['dni'])
+        #cardToken, cvvToken, dniToken = tokenize_card(data['number'], data['cvv'], data['user_dni'])
         
         new_card = CreditCard(
-            cardNumber=data['cardNumber'],
+            number=data['number'],
             balance=round(random.uniform(0, 10000),2),
-            cardHolderName=data['cardHolderName'],
-            expirationDate=data['expirationDate'],
+            card_holder_name=data['card_holder_name'],
+            expiration_date=data['expiration_date'],
             cvv=data['cvv'],
             type=data['type'],
-            active=data['active'],
-            dni=data['dni'],
+            active=True,
+            user_dni=data['user_dni'],
         )
         
         db.session.add(new_card)
@@ -56,7 +56,7 @@ class CreditCardListResource(Resource):
 class CreditCardValidationResource(Resource):
     def post(self):
         data = request.get_json()
-        creditCard = CreditCard.query.get_or_404(data['cardNumber'])
+        creditCard = CreditCard.query.get_or_404(data['number'])
 
         return compare_data(data, creditCard.to_dict())
     
@@ -64,7 +64,7 @@ class CreditCardValidationResource(Resource):
 class CreditCardChargeAuthorizationResource(Resource):
     def put(self):
         data = request.get_json()
-        creditCard = CreditCard.query.get_or_404(data['cardNumber'])
+        creditCard = CreditCard.query.get_or_404(data['number'])
         amount = data['amount']
 
         if creditCard.balance < amount:

@@ -12,27 +12,26 @@ def validate_card_data(data):
     """
     # Check required fields
     required_fields = [
-        "cardNumber",
-        "expirationDate",
-        "cardHolderName",
+        "number",
+        "expiration_date",
+        "card_holder_name",
         "cvv",
         "type",
-        "active",
-        "dni",
+        "user_dni",
     ]
     for field in required_fields:
         if field not in data:
             return {"error": f"Missing required field: {field}"}, 400
 
     # Validate card number (basic check)
-    if not isinstance(data["cardNumber"], str) or len(data["cardNumber"]) != 16:
+    if not isinstance(data["number"], str) or len(data["number"]) != 16:
         return {"error": "Invalid card number format"}, 400
 
     # Validate expiry date
-    if not isinstance(data["expirationDate"], str) or len(data["expirationDate"]) != 5:
+    if not isinstance(data["expiration_date"], str) or len(data["expiration_date"]) != 10:
         return {"error": "Invalid expiration date"}, 400
     try:
-        expiration_date = datetime.strptime(data["expirationDate"],"%m/%y")
+        expiration_date = datetime.strptime(data["expiration_date"],"%d/%m/%Y")
     except ValueError:
         return {"error": "Invalid expiration date format"}, 400
     if expiration_date < datetime.now():
@@ -46,12 +45,8 @@ def validate_card_data(data):
     if not isinstance(data["type"], str) or len(data["type"]) > 12:
         return {"error": "Invalid card type"}, 400
 
-    # Validate active
-    if not isinstance(data["active"], bool):
-        return {"error": "Invalid active status"}, 400
-
     # Validate DNI
-    if not isinstance(data["dni"],str) or len(data["dni"]) < 7 or len(data["dni"]) > 12:
+    if not isinstance(data["user_dni"],str) or len(data["user_dni"]) < 7 or len(data["user_dni"]) > 12:
         return {"error": "Invalid DNI format"}, 400
 
     # Additional validations can be added here
